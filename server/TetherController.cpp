@@ -140,9 +140,8 @@ int TetherController::DnsmasqState::sendCmd(int daemonFd, const std::string& cmd
     gLog.log("Sending update msg to dnsmasq [%s]", cmd.c_str());
     // Send the trailing \0 as well.
     if (write(daemonFd, cmd.c_str(), cmd.size() + 1) < 0) {
-        gLog.error("Failed to send update command to dnsmasq (%s)", strerror(errno));
-        errno = EREMOTEIO;
-        return -1;
+        gLog.error("Failed to send update command to dnsmasq (%s), ignoring for Android tethering", strerror(errno));
+        return 0;
     }
     return 0;
 }
